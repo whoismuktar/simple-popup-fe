@@ -3,23 +3,25 @@
     <div class="editor">
       <div class="editor-panel">
         <div class="editor-panel-section">
-          <div class="editor-panel-wrapper">
+          <div class="editor-panel-wrapper editor-panel-wrapper__action">
             <div class="editor-panel-section__title">ACTION</div>
-            <div class="editor-panel-item" @click="showColorPicker()">
-              <div class="editor-panel-item__icon">
-                <i class="bi bi-palette"></i>
+            <label for="popupBgColor">
+              <div class="editor-panel-item" @click="showColorPicker()">
+                <div class="editor-panel-item__icon">
+                  <i class="bi bi-palette"></i>
+                </div>
+                <div class="editor-panel-item__title">Background</div>
               </div>
-              <div class="editor-panel-item__title">Background</div>
+            </label>
 
-              <div class="editor-panel-tooltip color-picker">
-                <input
-                  v-if="colorPickerActive"
-                  v-model="bgColor"
-                  type="color"
-                  id="popupBgColor"
-                  name="popupBgColor"
-                />
-              </div>
+            <div class="editor-panel-tooltip color-picker">
+              <input
+                v-model="bgColor"
+                ref="colorPicker"
+                type="color"
+                id="popupBgColor"
+                name="popupBgColor"
+              />
             </div>
           </div>
         </div>
@@ -38,9 +40,9 @@
               @dragover.prevent
               @dragenter.prevent
             >
-            <span class="drag-icon">
-              <i class="bi bi-grip-vertical"></i>
-            </span>
+              <span class="drag-icon">
+                <i class="bi bi-grip-vertical"></i>
+              </span>
               <div class="editor-panel-item drop-zone">
                 <div class="drag-item">
                   <div class="editor-panel-item__icon">
@@ -109,26 +111,34 @@ export default {
       // console.log({ evt, i });
 
       this.itemDragged = this.elOrders[i];
-      console.log("dragged",this.itemDragged);
+      console.log("dragged", this.itemDragged);
     },
     onDrop(evt, i) {
-      Array.prototype.insert = function ( index, ...items ) {
-        this.splice( index, 0, ...items );
+      Array.prototype.insert = function (index, ...items) {
+        this.splice(index, 0, ...items);
       };
 
-      const itemDraggedIdx = this.elOrders.indexOf(this.itemDragged)
+      const itemDraggedIdx = this.elOrders.indexOf(this.itemDragged);
       if (itemDraggedIdx > i) {
-        this.elOrders.splice(itemDraggedIdx, itemDraggedIdx-i)
+        this.elOrders.splice(itemDraggedIdx, itemDraggedIdx - i);
       } else {
-        this.elOrders.splice(itemDraggedIdx, itemDraggedIdx+i)
+        this.elOrders.splice(itemDraggedIdx, itemDraggedIdx + i);
       }
-      this.elOrders.insert(i, this.itemDragged)
-      this.itemDragged = {}
+      this.elOrders.insert(i, this.itemDragged);
+      this.itemDragged = {};
     },
   },
   computed: {
     // ...mapState(["elOrder"]),
   },
+  mounted() {
+    setTimeout(() => {
+      // this.$refs.colorPicker.click()
+      this.$refs.colorPicker.focus()
+      this.$refs.colorPicker.click()
+      console.log("done", {rr: this.$refs.colorPicker});
+    }, 3000);
+  }
 };
 </script>
 
