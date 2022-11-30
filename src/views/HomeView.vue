@@ -6,7 +6,7 @@
           <div class="editor-panel-wrapper editor-panel-wrapper__action">
             <div class="editor-panel-section__title">ACTION</div>
             <label for="popupBgColor">
-              <div class="editor-panel-item" @click="showColorPicker()">
+              <div class="editor-panel-item"">
                 <div class="editor-panel-item__icon">
                   <i class="bi bi-palette"></i>
                 </div>
@@ -54,6 +54,24 @@
             </div>
           </div>
         </div>
+        <div class="editor-panel-section">
+          <div class="editor-panel-wrapper editor-panel-wrapper__action">
+              <div class="editor-panel-item" @click="savePopUp()">
+                <div class="editor-panel-item__icon">
+                  <i class="bi bi-hdd-fill"></i>
+                </div>
+                <div class="editor-panel-item__title">Save</div>
+              </div>
+
+              <div class="editor-panel-item">
+                <div class="editor-panel-item__icon">
+                  <i class="bi bi-code-slash"></i>
+                </div>
+                <div class="editor-panel-item__title">Embed</div>
+              </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="editor-field">
@@ -101,9 +119,6 @@ export default {
     };
   },
   methods: {
-    showColorPicker() {
-      this.colorPickerActive = true;
-    },
     startDrag(evt, i) {
       evt.dataTransfer.dropEffect = "move";
       evt.dataTransfer.effectAllowed = "move";
