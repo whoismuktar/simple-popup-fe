@@ -1,4 +1,3 @@
-
 .popup {
   width: 300px;
 
@@ -19,9 +18,10 @@
     border: 3px solid #ffffff;
 
     &__wrapper {
-    text-align: center;
-    width: 78%;
+      text-align: center;
+      width: 78%;
       margin: 0 auto;
+      height: 100%;
     }
   }
 
@@ -31,6 +31,7 @@
     font-weight: 600;
     margin-bottom: 15px;
     letter-spacing: 1px;
+    line-height: 24px;
   }
 
   &-input {
@@ -74,5 +75,19 @@
 
   &-item {
     margin-bottom: 20px;
+
+    &.popup-stars {
+      i {
+        font-size: 1.4em;
+        position: relative;
+        top: 6px;
+      }
+      
+      .large {
+        font-size: 2.4em;
+        margin: 0 20px;
+        top: 0;
+      }
+    }
   }
 }

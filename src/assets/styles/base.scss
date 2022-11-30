@@ -1,16 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,900;1,500&family=Roboto:ital,wght@0,400;0,500;0,700;1,500&display=swap");
-* {
-  transition: .3s cubic-bezier(.25,.8,.5,1);
-  transition-duration: 0.3s;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.5, 1);
-  transition-delay: 0s;
-}
 
 body,
 html {
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
+}
+
+.el-effect {
+  transition: .3s cubic-bezier(.25,.8,.5,1);
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition-delay: 0s;
 }
 
 .allChildrenCenter {
@@ -44,12 +45,27 @@ html {
 
       &:hover {
         background-color: #dee1fa;
+
+        .drag-icon {
+          visibility: visible;
+        }
+      }
+  
+      .drag-icon {
+        visibility: hidden;
+        position: absolute;
+        left: -2px;
+        z-index: 3;
+        top: 30%;
+        color: #a96767;
       }
 
       &__icon {
+        @extend .el-effect;
         font-size: 27px;
       }
       &__title {
+        @extend .el-effect;
         font-size: 13px;
         font-weight: 500;
       }

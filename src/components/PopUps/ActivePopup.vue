@@ -3,7 +3,11 @@
     <div class="popup-wrapper allChildrenCenter" :style="`background-color: ${bgColor}`">
       <div class="popup-inner">
         <div class="popup-inner__wrapper">
-          <div class="popup-item popup-stars"></div>
+          <div class="popup-item popup-stars">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill large"></i>
+            <i class="bi bi-star-fill"></i>
+          </div>
           <div class="popup-item popup-text">
             All the text and elements in this popup should be editable and dragable
           </div>
