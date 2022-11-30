@@ -1,5 +1,5 @@
 <template>
-  <div class="render-active-popup">
+  <div class="render-active-popup fade-in">
     <ActivePopup />
   </div>
 </template>
