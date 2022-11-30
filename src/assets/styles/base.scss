@@ -31,6 +31,53 @@ html {
   }
 }
 
+
+
+#simpleToast {
+  @extend .allChildrenCenter;
+  position: absolute;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  z-index: 1;
+  bottom: 30px;
+  font-family: monospace;
+  line-height: 12px;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  
+  span {
+    background-color: MediumVioletRed;
+    padding: 16px;
+  }
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+
+
+
+
+
 .allChildrenCenter {
   display: flex;
   align-items: center;
@@ -133,5 +180,6 @@ html {
     @extend .allChildrenCenter;
     height: 100vh;
     width: 93vw;
+    position: relative;
   }
 }

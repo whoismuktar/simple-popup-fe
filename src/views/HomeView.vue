@@ -6,7 +6,7 @@
           <div class="editor-panel-wrapper editor-panel-wrapper__action">
             <div class="editor-panel-section__title">ACTION</div>
             <label for="popupBgColor">
-              <div class="editor-panel-item"">
+              <div class="editor-panel-item">
                 <div class="editor-panel-item__icon">
                   <i class="bi bi-palette"></i>
                 </div>
@@ -56,26 +56,29 @@
         </div>
         <div class="editor-panel-section">
           <div class="editor-panel-wrapper editor-panel-wrapper__action">
-              <div class="editor-panel-item" @click="savePopUp()">
-                <div class="editor-panel-item__icon">
-                  <i class="bi bi-hdd-fill"></i>
-                </div>
-                <div class="editor-panel-item__title">Save</div>
+            <div class="editor-panel-item" @click="savePopUp()">
+              <div class="editor-panel-item__icon">
+                <i class="bi bi-hdd-fill"></i>
               </div>
+              <div class="editor-panel-item__title">Save</div>
+            </div>
 
-              <div class="editor-panel-item">
-                <div class="editor-panel-item__icon">
-                  <i class="bi bi-code-slash"></i>
-                </div>
-                <div class="editor-panel-item__title">Embed</div>
+            <div class="editor-panel-item" @click="getLink()">
+              <div class="editor-panel-item__icon">
+                <i class="bi bi-code-slash"></i>
               </div>
+              <div class="editor-panel-item__title">Embed</div>
+            </div>
           </div>
         </div>
-
       </div>
 
       <div class="editor-field">
         <ActivePopup :bgColor="bgColor" />
+
+        <div v-show="showToast" id="simpleToast">
+          <span>{{toastMessage}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -83,6 +86,7 @@
 
 <script>
 import ActivePopup from "@/components/PopUps/ActivePopup";
+import axios from "axios";
 // import { mapState } from "vuex";
 export default {
   name: "App",
@@ -91,6 +95,8 @@ export default {
   },
   data() {
     return {
+      showToast: false,
+      toastMessage: "",
       bgColor: "#e1795f",
       colorPickerActive: false,
       elOrders: [
@@ -142,18 +148,51 @@ export default {
       this.elOrders.insert(i, this.itemDragged);
       this.itemDragged = {};
     },
+    savePopUp() {
+      const settings = {
+        title: "Muktar",
+        icon: "star",
+      };
+
+      axios.post("http://localhost:3001/popup-settings", settings)
+      .then((response) => {
+        console.log(response.status);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+    },
+    getPopUp() {
+      axios.get("http://localhost:3001/popup-settings")
+      .then((response)=> {
+        console.log(response.data.settings);
+      })
+    },
+    getLink() {
+      const url = "https://simple-popup.netlify.app/popups/active"
+      navigator.clipboard.writeText(url);
+
+      this.showToast = true;
+      this.toastMessage = "Embedded link copied to clipboard";
+      
+      setTimeout(() => {
+        this.showToast = false;
+        this.toastMessage = "";
+      }, 3000);
+    }
   },
   computed: {
     // ...mapState(["elOrder"]),
   },
   mounted() {
-    setTimeout(() => {
-      // this.$refs.colorPicker.click()
-      this.$refs.colorPicker.focus()
-      this.$refs.colorPicker.click()
-      console.log("done", {rr: this.$refs.colorPicker});
-    }, 3000);
-  }
+    // setTimeout(() => {
+    //   // this.$refs.colorPicker.click()
+    //   this.$refs.colorPicker.focus();
+    //   this.$refs.colorPicker.click();
+    //   console.log("done", { rr: this.$refs.colorPicker });
+    // }, 3000);
+  },
 };
 </script>
 

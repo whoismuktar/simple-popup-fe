@@ -11,7 +11,7 @@ const routes = [
     component: HomeView
   },
   {
-    path: "/popups/",
+    path: "/popups/active",
     name: "activePopup",
     component: () => import("../components/PopUps/RenderPopup")
   },
