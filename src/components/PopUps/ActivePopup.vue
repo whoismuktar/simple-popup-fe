@@ -1,6 +1,6 @@
 <template>
   <div class="popup popup__default">
-    <div class="popup-wrapper">
+    <div class="popup-wrapper allChildrenCenter" :style="`background-color: ${bgColor}`">
       <div class="popup-inner">
         <div class="popup-inner__wrapper">
           <div class="popup-item popup-stars"></div>
@@ -24,7 +24,9 @@
 
 <script>
 export default {
-
+  props: {
+    bgColor: String,
+  }
 }
 </script>
 
