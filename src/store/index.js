@@ -16,21 +16,25 @@ export default new Vuex.Store({
         type: "icons",
         title: "Stars",
         icon: "star-fill",
+        value: "",
       },
       {
         type: "text",
         title: "Text",
         icon: "type",
+        value: "",
       },
       {
         type: "input",
         title: "Email",
         icon: "envelope-at",
+        value: "",
       },
       {
         type: "cta",
         title: "CTA",
         icon: "menu-button-wide-fill",
+        value: "signup now",
       },
     ],
     bgColor: "#e1795f"
@@ -40,6 +44,11 @@ export default new Vuex.Store({
   mutations: {
     updatePopUpData(state, data) {
       state.elOrders = data
+    },
+    updatePopUpDataUnit(state, unit) {
+      const idx = state.elOrders.findIndex(el => el.type == unit.type)
+      console.log({idx});
+      state.elOrders[idx].value = unit.value
     },
     updateBgColor(state, color) {
       state.bgColor = color
@@ -84,6 +93,9 @@ export default new Vuex.Store({
     savePopUpData({commit}, data) {
       commit("updatePopUpData", data)
       console.log("data updated");
+    },
+    savePopUpDataUnit({commit}, unit) {      
+      commit("updatePopUpDataUnit", unit)
     },
     saveBgColor({commit}, color) {
       commit("updateBgColor", color)

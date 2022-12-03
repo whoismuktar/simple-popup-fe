@@ -10,7 +10,7 @@
             v-for="(item, i) in popUpData"
             :key="i"
             class="drop-zone"
-            draggable
+            :draggable="editMode"
             @dragstart="startDrag($event, i)"
             @drop="onDrop($event, i)"
             @dragover.prevent
@@ -23,17 +23,34 @@
               ref="icons"
               class="popup-item popup-stars popup-icons"
             >
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill large"></i>
-              <i class="bi bi-star-fill"></i>
+              <img width="28" :src="require('@/assets/star.svg')" alt="" />
+              <img
+                width="50"
+                class="large"
+                :src="require('@/assets/star.svg')"
+                alt=""
+              />
+              <img width="28" :src="require('@/assets/star.svg')" alt="" />
             </div>
+
             <div
               v-if="item.type === 'text'"
               ref="text"
-              contenteditable
               class="popup-item popup-text"
+            >
+              <textarea
+                v-model="text"
+                name="text"
+                maxlength="100"
+                :disabled="!editMode"
+              ></textarea>
+            </div>
+
+            <!-- <div
+              v-if="item.type === 'text'"
+              contenteditable
               v-html="text"
-            ></div>
+            ></div> -->
             <div v-if="item.type === 'input'" class="popup-item popup-input">
               <input
                 v-model="email"
@@ -50,30 +67,6 @@
             No credit card required. No Surprises
           </div>
         </div>
-
-        <!-- <div class="popup-inner__wrapper">
-          <div ref="icons" class="popup-item popup-stars">
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-fill large"></i>
-            <i class="bi bi-star-fill"></i>
-          </div>
-          <div
-            ref="text"
-            contenteditable
-            class="popup-item popup-text"
-            @input="handleInput"
-            v-html="text"
-          ></div>
-          <div class="popup-item popup-input">
-            <input ref="input" type="email" placeholder="E-mail" />
-          </div>
-          <div class="popup-item popup-cta">
-            <button ref="button">Signup Now</button>
-          </div>
-          <div class="popup-item popup-footnote">
-            No credit card required. No Surprises
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -101,19 +94,30 @@ export default {
         this.getRefs[val][0].focus();
       }
     },
-    bgColor(val) {
-      console.log({ val });
+    text(val) {
+      const item = this.elOrders.find((el) => el.type == "text");
+      const unit = { ...item, ...{ value: val } };
+      this.$store.dispatch("savePopUpDataUnit", unit);
+    },
+    email(val) {
+      const item = this.elOrders.find((el) => el.type == "input");
+      const unit = { ...item, ...{ value: val } };
+      this.$store.dispatch("savePopUpDataUnit", unit);
     },
   },
   methods: {
     startDrag(evt, i) {
+      if (!this.editMode) return;
+
       evt.dataTransfer.dropEffect = "move";
       evt.dataTransfer.effectAllowed = "move";
-      evt.dataTransfer.setData("itemID", i)
+      evt.dataTransfer.setData("itemID", i);
 
       this.itemDragged = this.elOrders[i];
     },
     onDrop(evt, i) {
+      if (!this.editMode) return;
+
       // implement array prototype construct
       Array.prototype.insert = function (index, ...items) {
         this.splice(index, 0, ...items);
@@ -133,7 +137,7 @@ export default {
         orders.insert(i, this.itemDragged);
         orders.splice(itemDraggedIdx + 1, 1);
       } else if (isDownDrag) {
-        orders.insert(i+1, this.itemDragged);
+        orders.insert(i + 1, this.itemDragged);
         orders.splice(itemDraggedIdx, 1);
       }
 
@@ -166,9 +170,12 @@ export default {
         return { ...item, ...{ value } };
       });
     },
+    editMode() {
+      return this.$route.name === "editor";
+    },
     getRefs() {
-      return this.$refs
-    }
+      return this.$refs;
+    },
   },
 };
 </script>

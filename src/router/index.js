@@ -7,13 +7,13 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView
-  },
-  {
-    path: "/popups/active",
     name: "activePopup",
     component: () => import("../components/PopUps/RenderPopup")
+  },
+  {
+    path: "/editor",
+    name: "editor",
+    component: HomeView
   },
   {
     path: "*",
