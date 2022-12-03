@@ -23,14 +23,11 @@
               ref="icons"
               class="popup-item popup-stars popup-icons"
             >
-              <img width="28" :src="require('@/assets/star.svg')" alt="" />
-              <img
-                width="50"
-                class="large"
-                :src="require('@/assets/star.svg')"
-                alt=""
-              />
-              <img width="28" :src="require('@/assets/star.svg')" alt="" />
+              <div class="popup-item popup-stars">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill large"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
             </div>
 
             <div

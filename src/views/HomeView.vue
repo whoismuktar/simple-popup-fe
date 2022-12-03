@@ -148,8 +148,15 @@ export default {
       this.$store.dispatch("savePopupSettings");
     },
     getLink() {
-      const url = "https://simple-popup.netlify.app/popups/active";
-      navigator.clipboard.writeText(url);
+      let url = "https://simple-popup.onrender.com/cdn";
+      
+      process.env.NODE_ENV === "development"? (url = "http://localhost:3001/cdn")
+      : (url = "https://simple-popup.onrender.com/cdn");
+
+      //eslint-disable-next-line
+      const code = `<script async type="text/javascript" src="${url}` + "<\/script>"
+
+      navigator.clipboard.writeText(code);
 
       this.showToast = true;
       this.toastMessage = "Embedded link copied to clipboard";

@@ -11,4 +11,4 @@ new Vue({
   store,
   router,
   render: h => h(App)
-}).$mount("#popUpCc234j3F3h")
+}).$mount("#app")

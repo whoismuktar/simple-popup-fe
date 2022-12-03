@@ -1,6 +1,7 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import HomeView from "../views/HomeView"
+import Popup from "../components/PopUps/RenderPopup"
 
 Vue.use(VueRouter)
 
@@ -8,7 +9,7 @@ const routes = [
   {
     path: "/",
     name: "activePopup",
-    component: () => import("../components/PopUps/RenderPopup")
+    component: Popup
   },
   {
     path: "/editor",
