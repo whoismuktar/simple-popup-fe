@@ -16,7 +16,7 @@
             @dragover.prevent
             @dragenter.prevent
           >
-            <i class="bi bi-grip-horizontal grabber"></i>
+            <i v-if="editMode" class="bi bi-grip-horizontal grabber"></i>
 
             <div
               v-if="item.type === 'icons'"
