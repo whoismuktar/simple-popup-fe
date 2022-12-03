@@ -78,7 +78,7 @@ export default {
   },
   data() {
     return {
-      text: "All the text and elements in this popup should be editable and dragable",
+      text: "",
       email: "",
       itemDragged: {},
     };
@@ -173,7 +173,17 @@ export default {
     getRefs() {
       return this.$refs;
     },
+    defaultText() {
+      const item = this.elOrders.find((el) => el.type == "text");
+      return item.value
+    }
   },
+  created() {
+    this.text = this.defaultText || "All the text and elements in this popup should be editable and dragable"
+  },
+  mounted() {
+    console.log(this.elOrders);
+  }
 };
 </script>
 

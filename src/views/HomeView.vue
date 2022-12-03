@@ -79,8 +79,8 @@
       <div class="editor-field">
         <ActivePopup :focus="selectedNode" />
 
-        <div v-show="showToast" id="simpleToast">
-          <span>{{ toastMessage }}</span>
+        <div v-show="toast.active" id="simpleToast">
+          <span :style="`background-color: ${toast.color}`">{{ toast.message }}</span>
         </div>
       </div>
     </div>
@@ -98,8 +98,6 @@ export default {
   data() {
     return {
       selectedNode: "",
-      showToast: false,
-      toastMessage: "",
       bgColor: "#e1795f",
       colorPickerActive: false,
       itemDragged: {},
@@ -160,18 +158,13 @@ export default {
 
       this.showToast = true;
       this.toastMessage = "Embedded link copied to clipboard";
-
-      setTimeout(() => {
-        this.showToast = false;
-        this.toastMessage = "";
-      }, 3000);
     },
     selectNode(type) {
       this.selectedNode = type;
     },
   },
   computed: {
-    ...mapState(["elOrders"]),
+    ...mapState(["elOrders", "toast"]),
   },
   created() {
     this.$store.dispatch("getPopupSettings");
