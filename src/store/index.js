@@ -87,8 +87,6 @@ export default new Vuex.Store({
         bgColor: state.bgColor,
       };
 
-      console.log({settings});
-
       return axios
         .post("/popup-settings", settings)
         .then((response) => {
