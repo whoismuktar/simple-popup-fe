@@ -17,13 +17,13 @@ const routes = [
   },
   {
     path: "*",
-    name: "about",
-    component: () => "<template><span>404</span></template>"
+    name: "404",
+    component: () => HomeView
   },
 ]
 
 const router = new VueRouter({
-  mode: "history",
+  // mode: "history",
   base: process.env.BASE_URL,
   routes
 })
