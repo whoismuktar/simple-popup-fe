@@ -75,7 +75,7 @@
     
     &::-webkit-scrollbar {
       display: none;
-      width: 2px;
+      width: 0;
     }
   }
 
@@ -152,6 +152,23 @@
         font-size: 2.4em;
         margin: 0 20px;
         top: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 700px){
+  .popup {
+    &-wrapper {
+      height: 350px;
+      width: 350px;
+    }
+    &-text {
+      margin-bottom: 10px;
+      max-height: 96px;
+      
+      textarea {
+        font-size: 1.3em;
       }
     }
   }
