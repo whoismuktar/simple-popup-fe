@@ -23,7 +23,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .render-active-popup {
   position: fixed;
   width: 500px;
@@ -34,5 +34,9 @@ export default {
   margin: 5% auto;
   left: 0;
   right: 0;
+
+  * {
+    clear: both;
+  }
 }
 </style>

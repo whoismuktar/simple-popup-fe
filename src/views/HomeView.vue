@@ -39,6 +39,7 @@
               @drop="onDrop($event, i)"
               @dragover.prevent
               @dragenter.prevent
+              @click="selectNode(item.type)"
             >
               <span class="drag-icon">
                 <i class="bi bi-grip-vertical"></i>
@@ -48,7 +49,9 @@
                   <div class="editor-panel-item__icon">
                     <i :class="`bi bi-${item.icon}`"></i>
                   </div>
-                  <div class="editor-panel-item__title">{{ item.title }}</div>
+                  <div class="editor-panel-item__title">
+                    {{ item.title }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -74,10 +77,10 @@
       </div>
 
       <div class="editor-field">
-        <ActivePopup :bgColor="bgColor" />
+        <ActivePopup :focus="selectedNode" />
 
         <div v-show="showToast" id="simpleToast">
-          <span>{{toastMessage}}</span>
+          <span>{{ toastMessage }}</span>
         </div>
       </div>
     </div>
@@ -86,8 +89,7 @@
 
 <script>
 import ActivePopup from "@/components/PopUps/ActivePopup";
-import axios from "axios";
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "App",
   components: {
@@ -95,103 +97,77 @@ export default {
   },
   data() {
     return {
+      selectedNode: "",
       showToast: false,
       toastMessage: "",
       bgColor: "#e1795f",
       colorPickerActive: false,
-      elOrders: [
-        {
-          id: 1,
-          title: "Stars",
-          icon: "star-fill",
-        },
-        {
-          id: 2,
-          title: "Text",
-          icon: "type",
-        },
-        {
-          id: 3,
-          title: "Email",
-          icon: "envelope-at",
-        },
-        {
-          id: 4,
-          title: "CTA",
-          icon: "menu-button-wide-fill",
-        },
-      ],
       itemDragged: {},
     };
+  },
+  watch: {
+    bgColor(val) {
+      this.$store.dispatch("saveBgColor", val);
+    },
   },
   methods: {
     startDrag(evt, i) {
       evt.dataTransfer.dropEffect = "move";
       evt.dataTransfer.effectAllowed = "move";
-      evt.dataTransfer.setData("itemID", i);
-      // console.log({ evt, i });
+      evt.dataTransfer.setData("itemID", i)
 
       this.itemDragged = this.elOrders[i];
-      console.log("dragged", this.itemDragged);
     },
     onDrop(evt, i) {
+      // implement array prototype construct
       Array.prototype.insert = function (index, ...items) {
         this.splice(index, 0, ...items);
       };
 
       const itemDraggedIdx = this.elOrders.indexOf(this.itemDragged);
-      if (itemDraggedIdx > i) {
-        this.elOrders.splice(itemDraggedIdx, itemDraggedIdx - i);
-      } else {
-        this.elOrders.splice(itemDraggedIdx, itemDraggedIdx + i);
+      const isUpDrag = itemDraggedIdx > i;
+      const isDownDrag = i > itemDraggedIdx;
+
+      if (i === itemDraggedIdx) {
+        return;
       }
-      this.elOrders.insert(i, this.itemDragged);
-      this.itemDragged = {};
+
+      let orders = this.elOrders;
+
+      if (isUpDrag) {
+        orders.insert(i, this.itemDragged);
+        orders.splice(itemDraggedIdx + 1, 1);
+      } else if (isDownDrag) {
+        orders.insert(i+1, this.itemDragged);
+        orders.splice(itemDraggedIdx, 1);
+      }
+
+      this.$store.dispatch("savePopUpData", orders);
     },
     savePopUp() {
-      const settings = {
-        title: "Muktar",
-        icon: "star",
-      };
-
-      axios.post("http://localhost:3001/popup-settings", settings)
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-    },
-    getPopUp() {
-      axios.get("http://localhost:3001/popup-settings")
-      .then((response)=> {
-        console.log(response.data.settings);
-      })
+      this.$store.dispatch("savePopupSettings");
     },
     getLink() {
-      const url = "https://simple-popup.netlify.app/popups/active"
+      const url = "https://simple-popup.netlify.app/popups/active";
       navigator.clipboard.writeText(url);
 
       this.showToast = true;
       this.toastMessage = "Embedded link copied to clipboard";
-      
+
       setTimeout(() => {
         this.showToast = false;
         this.toastMessage = "";
       }, 3000);
-    }
+    },
+    selectNode(type) {
+      this.selectedNode = type;
+    },
   },
   computed: {
-    // ...mapState(["elOrder"]),
+    ...mapState(["elOrders"]),
   },
-  mounted() {
-    // setTimeout(() => {
-    //   // this.$refs.colorPicker.click()
-    //   this.$refs.colorPicker.focus();
-    //   this.$refs.colorPicker.click();
-    //   console.log("done", { rr: this.$refs.colorPicker });
-    // }, 3000);
+  created() {
+    this.$store.dispatch("getPopupSettings");
   },
 };
 </script>
