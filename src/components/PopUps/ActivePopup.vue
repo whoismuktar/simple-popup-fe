@@ -4,7 +4,7 @@
       class="popup-wrapper allChildrenCenter"
       :style="`background-color: ${bgColor}`"
     >
-    <!-- <div v-draggable="{ bounds: '.popup-wrapper' }" :draggable-options="{ bounds: 'body' }" class="box">I use a directive to make myself draggable</div> -->
+      <!-- <div v-draggable="{ bounds: '.popup-wrapper' }" :draggable-options="{ bounds: 'body' }" class="box">I use a directive to make myself draggable</div> -->
 
       <div class="popup-inner">
         <div class="popup-inner__wrapper">
@@ -16,7 +16,11 @@
             :ref="`item-${i}`"
             @click="selectEl(i)"
           >
-            <i v-if="editMode" class="bi bi-x-circle-fill close" @click="removeEl(i)"></i>
+            <i
+              v-if="editMode"
+              class="bi bi-x-circle-fill close"
+              @click="removeEl(i)"
+            ></i>
 
             <div
               v-if="item.type === 'icon'"
@@ -30,7 +34,10 @@
               </div>
             </div>
 
-            <div v-else-if="item.type === 'input'" class="popup-item popup-input">
+            <div
+              v-else-if="item.type === 'input'"
+              class="popup-item popup-input"
+            >
               <input
                 v-model="email"
                 ref="input"
@@ -41,16 +48,37 @@
 
             <div v-else-if="item.type === 'cta'" class="popup-item popup-cta">
               <button ref="cta">
-                <input type="text" v-model="elOrders[i].value" :disabled="!editMode" />
+                <input
+                  type="text"
+                  v-model="elOrders[i].value"
+                  :disabled="!editMode"
+                />
               </button>
             </div>
 
-            <div v-else-if="item.type === 'text'" class="popup-item" :class="`popup-${item.type}`">
-              <textarea :name="`text${i}`" v-model="elOrders[i].value" :id="`text${i}`" maxlength="100" :disabled="!editMode" cols="10" rows="10"></textarea>
+            <div
+              v-else-if="item.type === 'text'"
+              class="popup-item"
+              :class="`popup-${item.type}`"
+            >
+              <textarea
+                :name="`text${i}`"
+                v-model="elOrders[i].value"
+                :id="`text${i}`"
+                maxlength="100"
+                :disabled="!editMode"
+                cols="10"
+                rows="10"
+              ></textarea>
             </div>
           </div>
           <div class="popup-item popup-footnote">
-            <input type="text" v-model="$store.state.footNote" maxlength="40" :disabled="!editMode" />
+            <input
+              type="text"
+              v-model="$store.state.footNote"
+              maxlength="40"
+              :disabled="!editMode"
+            />
           </div>
         </div>
       </div>
@@ -90,15 +118,15 @@ export default {
       this.$store.dispatch("removePopUpUnit", idx);
     },
     selectEl(i) {
-      if (!this.editMode) return
+      if (!this.editMode) return;
 
       var prevSelected = document.getElementsByClassName("drop-zone--selected");
       if (prevSelected.length) {
-        prevSelected[0].classList.remove("drop-zone--selected")
+        prevSelected[0].classList.remove("drop-zone--selected");
       }
 
-      const el = this.$refs[`item-${i}`]
-      if (Array.isArray(el) &&el.length) {
+      const el = this.$refs[`item-${i}`];
+      if (Array.isArray(el) && el.length) {
         el[0].classList.add("drop-zone--selected");
       }
     },
@@ -148,7 +176,7 @@ export default {
     getRefs() {
       return this.$refs;
     },
-  }
+  },
 };
 </script>
 
