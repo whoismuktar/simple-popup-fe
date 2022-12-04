@@ -41,18 +41,18 @@
           }
         }
 
-        .grabber {
+        .close {
           position: absolute;
           top: -7px;
           display: none;
-          right: 3px;
+          // right: 3px;
           cursor: pointer;
           z-index: 999;
-          color: #777
+          // color: #777
         }
 
         &:hover {
-        .grabber {
+        .close {
             display: inline-grid;
             display: -ms-inline-grid;
           }
@@ -76,7 +76,7 @@
       line-height: 24px;
       resize: none;
       width: 100%;
-      height: 100px;
+      max-height: 100px;
       color: #ffffff;
       background-color: transparent;
       outline: none;

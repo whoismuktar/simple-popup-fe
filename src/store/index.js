@@ -105,6 +105,10 @@ export default new Vuex.Store({
     updatePopUpDataUnit(state, unit) {
       state.elOrders.push(unit)
     },
+    deletePopUpUnit(state, idx) {
+      state.elOrders.splice(idx, 1)
+      console.log(state.elOrders.length);
+    },
     updateBgColor(state, color) {
       state.bgColor = color;
     },
@@ -164,6 +168,9 @@ export default new Vuex.Store({
     },
     savePopUpDataUnit({ commit }, unit) {
       commit("updatePopUpDataUnit", unit);
+    },
+    removePopUpUnit({ commit }, idx) {
+      commit("deletePopUpUnit", idx);
     },
     saveBgColor({ commit }, color) {
       commit("updateBgColor", color);

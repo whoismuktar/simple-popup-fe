@@ -16,9 +16,11 @@
             :ref="`item-${i}`"
             @click="selectEl(item, i)"
           >
+            <i v-if="editMode" class="bi bi-x-circle-fill close" @click="removeEl(i)"></i>
+
             <div
               v-if="item.type === 'icon'"
-              ref="icons"
+              ref="icon"
               class="popup-item popup-stars popup-icons"
             >
               <div class="popup-item popup-stars">
@@ -117,6 +119,10 @@ export default {
     // },
   },
   methods: {
+    removeEl(idx) {
+      this.$store.dispatch("removePopUpUnit", idx);
+      
+    },
     selectEl(item, i) {
       var prevSelected = document.getElementsByClassName("drop-zone--selected");
       if (prevSelected.length) {
@@ -124,7 +130,7 @@ export default {
       }
 
       const el = this.$refs[`item-${i}`]
-      if (Array.isArray(el)) {
+      if (Array.isArray(el) &&el.length) {
         el[0].classList.add("drop-zone--selected");
       }
     },
