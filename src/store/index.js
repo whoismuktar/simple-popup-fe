@@ -66,7 +66,7 @@ export default new Vuex.Store({
     ],
     elAssets: [
       {
-        type: "icons",
+        type: "icon",
         title: "Stars",
         icon: "star-fill",
         value:
