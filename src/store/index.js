@@ -102,10 +102,18 @@ export default new Vuex.Store({
 
           const { data, bgColor, footNote } = settings;
 
+          console.log(footNote);
+
           if (Object.keys(settings).length) {
-            commit("updatePopUpData", data);
-            commit("updateBgColor", bgColor);
-            commit("updatefootNote", footNote);
+            if (Object.keys(data).length) {
+              commit("updatePopUpData", data);
+            }
+            if (bgColor) {
+              commit("updateBgColor", bgColor );
+            }
+            if (footNote) {
+              commit("updatefootNote", footNote );
+            }
           }
         })
         .catch((err) => {

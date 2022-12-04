@@ -36,7 +36,6 @@
               :id="item.type"
               class="editor-panel-item drop-zone"
               v-draggable
-              @start="onDragStart"
               @stop="onDragEnd"
             >
               <span class="drag-icon">
@@ -174,9 +173,6 @@ export default {
   },
   computed: {
     ...mapState(["elAssets", "toast"]),
-  },
-  created() {
-    this.$store.dispatch("getPopupSettings");
   },
 };
 </script>

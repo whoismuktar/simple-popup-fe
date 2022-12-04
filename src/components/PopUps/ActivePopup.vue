@@ -193,6 +193,9 @@ export default {
       return this.$refs;
     },
   },
+  created() {
+    this.$store.dispatch("getPopupSettings");
+  },
   mounted() {
     const items = []
     for (const key in this.getRefs) {
