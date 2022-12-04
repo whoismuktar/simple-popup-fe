@@ -73,6 +73,14 @@ export default new Vuex.Store({
   },
   getters: {},
   mutations: {
+    updateToast(state, toast) {
+      const {active=false, message="", color=""} = toast
+      state.toast = {...state.toast, ...{active, message, color}}
+      
+      setTimeout(() => {
+        state.toast.active = false;
+      }, 3000);
+    },
     updatePopUpData(state, data) {
       state.elOrders = data
     },
@@ -147,6 +155,9 @@ export default new Vuex.Store({
           console.log(err);
           return err.response;
         });
+    },
+    triggerToast({ commit }, toast) {
+      commit("updateToast", toast);
     },
     savePopUpData({ commit }, data) {
       commit("updatePopUpData", data);

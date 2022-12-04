@@ -163,9 +163,11 @@ export default {
       const code = `<script async type="text/javascript" src="${url}` + "<\/script>"
 
       navigator.clipboard.writeText(code);
+      const message = "Embedded link copied to clipboard";
 
-      this.showToast = true;
-      this.toastMessage = "Embedded link copied to clipboard";
+
+      this.$store.dispatch("triggerToast", {active:true,message, color: "4BB543"});
+      
     },
     selectNode(type) {
       this.selectedNode = type;
