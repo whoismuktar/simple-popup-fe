@@ -140,9 +140,16 @@
   }
 
   &-footnote {
-    font-size: 10px;
-    color: #ffffff;
-    letter-spacing: 0.5px;
+    input {
+      font-size: 10px;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      background-color: transparent;
+      border: 0;
+      width: 100%;
+      text-align: center;
+      outline: none;
+    }
   }
 
   &-item {

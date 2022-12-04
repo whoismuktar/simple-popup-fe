@@ -37,33 +37,6 @@ export default new Vuex.Store({
         value: "signup now",
       },
     ],
-    elOrder: [
-      {
-        type: "icons",
-        title: "Stars",
-        icon: "star-fill",
-        value:
-          "All the text and elements in this popup should be editable and dragable",
-      },
-      {
-        type: "text",
-        title: "Text",
-        icon: "type",
-        value: "",
-      },
-      {
-        type: "input",
-        title: "Email",
-        icon: "envelope-at",
-        value: "",
-      },
-      {
-        type: "cta",
-        title: "CTA",
-        icon: "menu-button-wide-fill",
-        value: "signup now",
-      },
-    ],
     elAssets: [
       {
         type: "icon",
@@ -92,6 +65,7 @@ export default new Vuex.Store({
       },
     ],
     bgColor: "#e1795f",
+    footNote: "No credit card required. No Surprises",
     toast: {
       active: false,
       message: "",
@@ -112,6 +86,9 @@ export default new Vuex.Store({
     updateBgColor(state, color) {
       state.bgColor = color;
     },
+    updatefootNote(state, color) {
+      state.bgColor = color;
+    },
   },
   actions: {
       //eslint-disable-next-line
@@ -122,15 +99,12 @@ export default new Vuex.Store({
           const settings = response.data.settings || {};
 
           //eslint-disable-next-line
-          const { data, bgColor } = settings;
+          const { data, bgColor, footNote } = settings;
 
           if (Object.keys(settings).length) {
-            if (data) {
-              // commit("updatePopUpData", data);
-            }
-            if (bgColor) {
-              // commit("updateBgColor", bgColor);
-            }
+            // commit("updatePopUpData", data);
+            // commit("updateBgColor", bgColor);
+            // commit("updatefootNote", footNote);
           }
         })
         .catch((err) => {
@@ -149,6 +123,7 @@ export default new Vuex.Store({
         .then((response) => {
           commit("updatePopUpData", response.data.settings.data);
           commit("updateBgColor", response.data.settings.bgColor);
+          commit("updatefootNote", response.data.settings.footNote);
           state.toast.active = true;
           state.toast.message = "Popup save successfuly!";
           state.toast.color = "#4BB543";
@@ -174,6 +149,9 @@ export default new Vuex.Store({
     },
     saveBgColor({ commit }, color) {
       commit("updateBgColor", color);
+    },
+    saveFootNote({ commit }, footNote) {
+      commit("updatefootNote", footNote);
     },
   },
   modules: {},

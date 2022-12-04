@@ -12,9 +12,9 @@
             v-for="(item, i) in elOrders"
             :key="i"
             class="drop-zone"
-            v-draggable
+            :v-draggable="editMode ? true : null"
             :ref="`item-${i}`"
-            @click="selectEl(item, i)"
+            @click="selectEl(i)"
           >
             <i v-if="editMode" class="bi bi-x-circle-fill close" @click="removeEl(i)"></i>
 
@@ -46,11 +46,11 @@
             </div>
 
             <div v-else-if="item.type === 'text'" class="popup-item" :class="`popup-${item.type}`">
-              <textarea name="" v-model="elOrders[i].value" id="" cols="30" rows="10"></textarea>
+              <textarea :name="`text${i}`" v-model="elOrders[i].value" :id="`text${i}`" maxlength="100" :disabled="!editMode" cols="10" rows="10"></textarea>
             </div>
           </div>
           <div class="popup-item popup-footnote">
-            No credit card required. No Surprises
+            <input type="text" v-model="footNote" maxlength="40" :disabled="!editMode" />
           </div>
         </div>
       </div>
@@ -123,7 +123,9 @@ export default {
       this.$store.dispatch("removePopUpUnit", idx);
       
     },
-    selectEl(item, i) {
+    selectEl(i) {
+      if (!this.editMode) return
+
       var prevSelected = document.getElementsByClassName("drop-zone--selected");
       if (prevSelected.length) {
         prevSelected[0].classList.remove("drop-zone--selected")
@@ -173,45 +175,14 @@ export default {
     },
   },
   computed: {
-    ...mapState(["bgColor", "elOrders"]),
-    // popUpData() {
-    //   const data = this.elOrders;
-    //   return data.map((item) => {
-    //     let value;
-    //     switch (item.type) {
-    //       case "icons":
-    //         value = this.$refs.icons;
-    //         break;
-    //       case "text":
-    //         value = this.text;
-    //         break;
-    //       case "input":
-    //         value = this.email;
-    //         break;
-    //       case "cta":
-    //         value = this.$refs.cta;
-    //         break;
-    //       default:
-    //         break;
-    //     }
-    //     // console.log({ ...item, ...{ value } });
-    //     return { ...item, ...{ value } };
-    //   });
-    // },
+    ...mapState(["bgColor", "elOrders", "footNote"]),
     editMode() {
       return this.$route.name === "editor";
     },
     getRefs() {
       return this.$refs;
     },
-    // defaultText() {
-    //   const item = this.elOrders.find((el) => el.type == "text");
-    //   return item.value
-    // }
-  },
-  created() {
-    this.text = this.defaultText || "All the text and elements in this popup should be editable and dragable"
-  },
+  }
 };
 </script>
 
