@@ -62,7 +62,7 @@ export default new Vuex.Store({
       return axios
         .get("/popup-settings")
         .then((response) => {
-          const settings = JSON.parse(response.data.settings) || {};
+          const settings = response.data.settings || {};
 
           //eslint-disable-next-line
           const { data, bgColor } = settings;
@@ -77,7 +77,7 @@ export default new Vuex.Store({
           }
         })
         .catch((err) => {
-          console.log(err.response);
+          console.log(err);
         });
     },
       //eslint-disable-next-line
