@@ -31,16 +31,21 @@
             <div class="editor-panel-section__title">ORDER</div>
 
             <div
-              v-for="(item, i) in elOrders"
+              v-for="(item, i) in elAssets"
               :key="i"
+              :id="item.type"
               class="editor-panel-item drop-zone"
-              draggable
+              v-draggable=""
+              @start="onDragStart"
+              @stop="onDragEnd"
+            >
+              <!-- draggable
               @dragstart="startDrag($event, i)"
               @drop="onDrop($event, i)"
               @dragover.prevent
               @dragenter.prevent
               @click="selectNode(item.type)"
-            >
+            > -->
               <span class="drag-icon">
                 <i class="bi bi-grip-vertical"></i>
               </span>
@@ -77,7 +82,7 @@
       </div>
 
       <div class="editor-field">
-        <ActivePopup :focus="selectedNode" />
+        <ActivePopup :focus="selectedNode" :newEl="newEl" />
 
         <div v-show="toast.active" id="simpleToast">
           <span :style="`background-color: ${toast.color}`">{{ toast.message }}</span>
@@ -101,6 +106,7 @@ export default {
       bgColor: "#e1795f",
       colorPickerActive: false,
       itemDragged: {},
+      newEl: {},
     };
   },
   watch: {
@@ -109,6 +115,36 @@ export default {
     },
   },
   methods: {
+    onDragStart() {
+      // console.log({evt});
+    },
+    onDragEnd(evt) {
+      // if (evt.detail.event.screenX < 630) {
+      //   const el =  evt.path[0]
+      //   this.resetEl(el)
+      //   evt.preventDefault()
+      //   return
+      // }
+
+      console.log(evt.detail.data.lastX, evt.detail.data.lastY);
+      console.log({evt});
+      const el =  evt.path[0]
+      // console.log({el});
+
+      this.newEl = {
+        type: el.id,
+        position: {
+          pageX: 116,
+          pageY: 415,
+        },
+        bound: "",
+      }
+
+      this.resetEl(el)
+    },
+    resetEl(el) {
+      el.style.transform = "translate(0px, 0px)"
+    },
     startDrag(evt, i) {
       evt.dataTransfer.dropEffect = "move";
       evt.dataTransfer.effectAllowed = "move";
@@ -116,31 +152,31 @@ export default {
 
       this.itemDragged = this.elOrders[i];
     },
-    onDrop(evt, i) {
+    onDrop() {
       // implement array prototype construct
-      Array.prototype.insert = function (index, ...items) {
-        this.splice(index, 0, ...items);
-      };
+      // Array.prototype.insert = function (index, ...items) {
+      //   this.splice(index, 0, ...items);
+      // };
 
-      const itemDraggedIdx = this.elOrders.indexOf(this.itemDragged);
-      const isUpDrag = itemDraggedIdx > i;
-      const isDownDrag = i > itemDraggedIdx;
+      // const itemDraggedIdx = this.elOrders.indexOf(this.itemDragged);
+      // const isUpDrag = itemDraggedIdx > i;
+      // const isDownDrag = i > itemDraggedIdx;
 
-      if (i === itemDraggedIdx) {
-        return;
-      }
+      // if (i === itemDraggedIdx) {
+      //   return;
+      // }
 
-      let orders = this.elOrders;
+      // let orders = this.elOrders;
 
-      if (isUpDrag) {
-        orders.insert(i, this.itemDragged);
-        orders.splice(itemDraggedIdx + 1, 1);
-      } else if (isDownDrag) {
-        orders.insert(i+1, this.itemDragged);
-        orders.splice(itemDraggedIdx, 1);
-      }
+      // if (isUpDrag) {
+      //   orders.insert(i, this.itemDragged);
+      //   orders.splice(itemDraggedIdx + 1, 1);
+      // } else if (isDownDrag) {
+      //   orders.insert(i+1, this.itemDragged);
+      //   orders.splice(itemDraggedIdx, 1);
+      // }
 
-      this.$store.dispatch("savePopUpData", orders);
+      // this.$store.dispatch("savePopUpData", orders);
     },
     savePopUp() {
       this.$store.dispatch("savePopupSettings");
@@ -164,7 +200,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["elOrders", "toast"]),
+    ...mapState(["elAssets", "toast"]),
   },
   created() {
     this.$store.dispatch("getPopupSettings");

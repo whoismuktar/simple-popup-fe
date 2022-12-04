@@ -4,22 +4,20 @@
       class="popup-wrapper allChildrenCenter"
       :style="`background-color: ${bgColor}`"
     >
+    <!-- <div v-draggable="{ bounds: '.popup-wrapper' }" :draggable-options="{ bounds: 'body' }" class="box">I use a directive to make myself draggable</div> -->
+
       <div class="popup-inner">
         <div class="popup-inner__wrapper">
           <div
-            v-for="(item, i) in popUpData"
+            v-for="(item, i) in elOrders"
             :key="i"
             class="drop-zone"
-            :draggable="editMode"
-            @dragstart="startDrag($event, i)"
-            @drop="onDrop($event, i)"
-            @dragover.prevent
-            @dragenter.prevent
+            v-draggable
+            :ref="`item-${i}`"
+            @click="selectEl(item, i)"
           >
-            <i v-if="editMode" class="bi bi-grip-horizontal grabber"></i>
-
             <div
-              v-if="item.type === 'icons'"
+              v-if="item.type === 'icon'"
               ref="icons"
               class="popup-item popup-stars popup-icons"
             >
@@ -30,25 +28,7 @@
               </div>
             </div>
 
-            <div
-              v-if="item.type === 'text'"
-              ref="text"
-              class="popup-item popup-text"
-            >
-              <textarea
-                v-model="text"
-                name="text"
-                maxlength="100"
-                :disabled="!editMode"
-              ></textarea>
-            </div>
-
-            <!-- <div
-              v-if="item.type === 'text'"
-              contenteditable
-              v-html="text"
-            ></div> -->
-            <div v-if="item.type === 'input'" class="popup-item popup-input">
+            <div v-else-if="item.type === 'input'" class="popup-item popup-input">
               <input
                 v-model="email"
                 ref="input"
@@ -56,8 +36,15 @@
                 placeholder="E-mail"
               />
             </div>
-            <div v-if="item.type === 'cta'" class="popup-item popup-cta">
-              <button ref="cta">Signup Now</button>
+
+            <div v-else-if="item.type === 'cta'" class="popup-item popup-cta">
+              <button ref="cta">
+                <input type="text" v-model="elOrders[i].value" :disabled="!editMode" />
+              </button>
+            </div>
+
+            <div v-else-if="item.type === 'text'" class="popup-item" :class="`popup-${item.type}`">
+              <textarea name="" v-model="elOrders[i].value" id="" cols="30" rows="10"></textarea>
             </div>
           </div>
           <div class="popup-item popup-footnote">
@@ -75,6 +62,7 @@ import { mapState } from "vuex";
 export default {
   props: {
     focus: String,
+    newEl: Object,
   },
   data() {
     return {
@@ -91,18 +79,55 @@ export default {
         this.getRefs[val][0].focus();
       }
     },
-    text(val) {
-      const item = this.elOrders.find((el) => el.type == "text");
-      const unit = { ...item, ...{ value: val } };
-      this.$store.dispatch("savePopUpDataUnit", unit);
+    newEl(val) {
+      this.$store.dispatch("savePopUpDataUnit", val);
+      // console.log(this.elOrders.lenght,this.elOrders);
     },
-    email(val) {
-      const item = this.elOrders.find((el) => el.type == "input");
-      const unit = { ...item, ...{ value: val } };
-      this.$store.dispatch("savePopUpDataUnit", unit);
+    elOrders() {
+      // if (newVal.length > oldVal.length) {
+      // }
+      // const lastItem = val[val.length-1]
+      // const lastElItem = newVal.findIndex((item, i)=> i === lastItemIdx)
+
+      // const idx = state.elOrders.findIndex((el) => el.type == unit.type);
+      // state.elOrders[idx].value = unit.value;
+
+      // this.$nextTick(()=> {
+      //   const lastElItem = Object.values(this.$refs).pop();
+      //   console.log(this.$refs, lastElItem, {lastItem});
+
+      //   var rect = lastElItem[0].getBoundingClientRect();
+      //   lastElItem[0].style.left = rect.x + lastItem.position.pageX + 'px';
+      //   lastElItem[0].style.top  = rect.x + lastItem.position.pageX + 'px';
+      //   // lastElItem[0].style.transform = `translate(${lastItem.position.pageX}px, ${lastItem.position.pageY}px)`
+      //   // console.log(lastElItem[0].getBoundingClientRect());
+      // })
+
+
     },
+    // text(val) {
+    //   const item = this.elOrders.find((el) => el.type == "text");
+    //   const unit = { ...item, ...{ value: val } };
+    //   this.$store.dispatch("savePopUpDataUnit", unit);
+    // },
+    // email(val) {
+    //   const item = this.elOrders.find((el) => el.type == "input");
+    //   const unit = { ...item, ...{ value: val } };
+    //   this.$store.dispatch("savePopUpDataUnit", unit);
+    // },
   },
   methods: {
+    selectEl(item, i) {
+      var prevSelected = document.getElementsByClassName("drop-zone--selected");
+      if (prevSelected.length) {
+        prevSelected[0].classList.remove("drop-zone--selected")
+      }
+
+      const el = this.$refs[`item-${i}`]
+      if (Array.isArray(el)) {
+        el[0].classList.add("drop-zone--selected");
+      }
+    },
     startDrag(evt, i) {
       if (!this.editMode) return;
 
@@ -143,47 +168,44 @@ export default {
   },
   computed: {
     ...mapState(["bgColor", "elOrders"]),
-    popUpData() {
-      const data = this.elOrders;
-      return data.map((item) => {
-        let value;
-        switch (item.type) {
-          case "icons":
-            value = this.$refs.icons;
-            break;
-          case "text":
-            value = this.text;
-            break;
-          case "input":
-            value = this.email;
-            break;
-          case "cta":
-            value = this.$refs.cta;
-            break;
-          default:
-            break;
-        }
-        // console.log({ ...item, ...{ value } });
-        return { ...item, ...{ value } };
-      });
-    },
+    // popUpData() {
+    //   const data = this.elOrders;
+    //   return data.map((item) => {
+    //     let value;
+    //     switch (item.type) {
+    //       case "icons":
+    //         value = this.$refs.icons;
+    //         break;
+    //       case "text":
+    //         value = this.text;
+    //         break;
+    //       case "input":
+    //         value = this.email;
+    //         break;
+    //       case "cta":
+    //         value = this.$refs.cta;
+    //         break;
+    //       default:
+    //         break;
+    //     }
+    //     // console.log({ ...item, ...{ value } });
+    //     return { ...item, ...{ value } };
+    //   });
+    // },
     editMode() {
       return this.$route.name === "editor";
     },
     getRefs() {
       return this.$refs;
     },
-    defaultText() {
-      const item = this.elOrders.find((el) => el.type == "text");
-      return item.value
-    }
+    // defaultText() {
+    //   const item = this.elOrders.find((el) => el.type == "text");
+    //   return item.value
+    // }
   },
   created() {
     this.text = this.defaultText || "All the text and elements in this popup should be editable and dragable"
   },
-  mounted() {
-    console.log(this.elOrders);
-  }
 };
 </script>
 

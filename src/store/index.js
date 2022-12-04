@@ -12,6 +12,60 @@ export default new Vuex.Store({
   state: {
     elOrders: [
       {
+        type: "icon",
+        position: "translate(0px, 0px)",
+        value: "star-fill",
+        bound: "",
+      },
+      {
+        type: "text",
+        position: "translate(0px, 0px)",
+        bound: "",
+        value:
+          "All the text and elements in this popup should be editable and dragable",
+      },
+      {
+        type: "input",
+        position: "translate(0px, 0px)",
+        bound: "",
+        value: "",
+      },
+      {
+        type: "cta",
+        position: "translate(0px, 0px)",
+        bound: "",
+        value: "signup now",
+      },
+    ],
+    elOrder: [
+      {
+        type: "icons",
+        title: "Stars",
+        icon: "star-fill",
+        value:
+          "All the text and elements in this popup should be editable and dragable",
+      },
+      {
+        type: "text",
+        title: "Text",
+        icon: "type",
+        value: "",
+      },
+      {
+        type: "input",
+        title: "Email",
+        icon: "envelope-at",
+        value: "",
+      },
+      {
+        type: "cta",
+        title: "CTA",
+        icon: "menu-button-wide-fill",
+        value: "signup now",
+      },
+    ],
+    elAssets: [
+      {
         type: "icons",
         title: "Stars",
         icon: "star-fill",
@@ -49,8 +103,7 @@ export default new Vuex.Store({
       state.elOrders = data
     },
     updatePopUpDataUnit(state, unit) {
-      const idx = state.elOrders.findIndex((el) => el.type == unit.type);
-      state.elOrders[idx].value = unit.value;
+      state.elOrders.push(unit)
     },
     updateBgColor(state, color) {
       state.bgColor = color;
@@ -69,10 +122,10 @@ export default new Vuex.Store({
 
           if (Object.keys(settings).length) {
             if (data) {
-              commit("updatePopUpData", data);
+              // commit("updatePopUpData", data);
             }
             if (bgColor) {
-              commit("updateBgColor", bgColor);
+              // commit("updateBgColor", bgColor);
             }
           }
         })

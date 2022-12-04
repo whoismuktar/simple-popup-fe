@@ -29,6 +29,18 @@
 
       .drop-zone {
         position: relative;
+
+        &--selected {
+          &::before {
+            content: "";
+            border: 1px dashed #000000;
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+        }
+
         .grabber {
           position: absolute;
           top: -7px;
@@ -113,6 +125,17 @@
       font-weight: 700;
       color: #ffffff;
       background-color: #414141;
+
+      input {
+        border: none;
+        font-size: 16px;
+        text-transform: capitalize;
+        font-weight: 700;
+        color: #ffffff;
+        background-color: transparent;
+        text-align: center;
+        outline: none;
+      }
     }
   }
 
@@ -125,6 +148,7 @@
   &-item {
     // margin-bottom: 10px;
     position: relative;
+    cursor: drag;
 
     // &::before {
     //   content:  "\F3FD"; 
