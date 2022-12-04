@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 process.env.NODE_ENV === "development"
   ? (axios.defaults.baseURL = "http://localhost:3001/")
-  : (axios.defaults.baseURL = "https://simple-popup.onrender.com/");
+  : (axios.defaults.baseURL = "https://simple-popup.herokuapp.com/");
 
   const defaultPopUp = {
     elOrders: [
