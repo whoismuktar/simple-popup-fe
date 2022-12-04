@@ -94,7 +94,6 @@
 
 <script>
 import { mapState } from "vuex";
-// import { Draggable } from "@braks/revue-draggable";
 
 export default {
   props: {
@@ -148,43 +147,6 @@ export default {
       if (Array.isArray(el) && el.length) {
         el[0].classList.add("drop-zone--selected");
       }
-    },
-    startDrag(evt, i) {
-      if (!this.editMode) return;
-
-      evt.dataTransfer.dropEffect = "move";
-      evt.dataTransfer.effectAllowed = "move";
-      evt.dataTransfer.setData("itemID", i);
-
-      this.itemDragged = this.elOrders[i];
-    },
-    onDrop(evt, i) {
-      if (!this.editMode) return;
-
-      // implement array prototype construct
-      Array.prototype.insert = function (index, ...items) {
-        this.splice(index, 0, ...items);
-      };
-
-      const itemDraggedIdx = this.elOrders.indexOf(this.itemDragged);
-      const isUpDrag = itemDraggedIdx > i;
-      const isDownDrag = i > itemDraggedIdx;
-
-      if (i === itemDraggedIdx) {
-        return;
-      }
-
-      let orders = this.elOrders;
-
-      if (isUpDrag) {
-        orders.insert(i, this.itemDragged);
-        orders.splice(itemDraggedIdx + 1, 1);
-      } else if (isDownDrag) {
-        orders.insert(i + 1, this.itemDragged);
-        orders.splice(itemDraggedIdx, 1);
-      }
-
-      this.$store.dispatch("savePopUpData", orders);
     },
   },
   computed: {

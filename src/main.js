@@ -9,11 +9,11 @@ Vue.config.productionTip = false;
 Vue.use(DraggablePlugin);
 
 // Environment dependent mounting
-// let tag = "";
-// process.env.NODE_ENV === "development" ? (tag = "#app") : (tag = "#emPop");
+let tag = "";
+process.env.NODE_ENV === "development" ? tag = "#app" : tag = "#emPop";
 
 new Vue({
   store,
   router,
   render: (h) => h(App),
-}).$mount("#app");
+}).$mount(tag);

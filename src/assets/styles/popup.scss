@@ -44,10 +44,8 @@
           position: absolute;
           top: -7px;
           display: none;
-          // right: 3px;
           cursor: pointer;
           z-index: 999;
-          // color: #777
         }
 
         &:hover {
@@ -56,10 +54,6 @@
             display: -ms-inline-grid;
           }
         }
-      }
-
-      :nth-child(1) {
-        // display: block;
       }
     }
   }
@@ -152,7 +146,6 @@
   }
 
   &-item {
-    // margin-bottom: 10px;
     position: relative;
     cursor: grab;
 
