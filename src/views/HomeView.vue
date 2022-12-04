@@ -69,12 +69,19 @@
               </div>
               <div class="editor-panel-item__title">Embed</div>
             </div>
+
+            <div class="editor-panel-item" @click="resetPopUp()">
+              <div class="editor-panel-item__icon">
+                <i class="bi bi-x-diamond-fill"></i>
+              </div>
+              <div class="editor-panel-item__title">Reset</div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="editor-field">
-        <ActivePopup :focus="selectedNode" :newEl="newEl" />
+        <ActivePopup :focus="selectedNode" :newEl="newEl" ref="activePopup" />
 
         <div v-show="toast.active" id="simpleToast">
           <span :style="`background-color: ${toast.color}`">{{ toast.message }}</span>
@@ -161,13 +168,15 @@ export default {
 
       //eslint-disable-next-line
       const code = `<script async type="text/javascript" src="${url}` + "<\/script>"
-
       navigator.clipboard.writeText(code);
+
       const message = "Embedded link copied to clipboard";
-
-
       this.$store.dispatch("triggerToast", {active:true,message, color: "4BB543"});
       
+    },
+    resetPopUp() {
+      this.$store.dispatch("resetPopUp");
+      this.$refs.activePopup.resetPopUp()
     },
     selectNode(type) {
       this.selectedNode = type;
@@ -175,6 +184,9 @@ export default {
   },
   computed: {
     ...mapState(["elAssets", "toast"]),
+    getRefs() {
+      return this.$refs;
+    },
   },
 };
 </script>

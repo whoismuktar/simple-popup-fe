@@ -98,12 +98,8 @@ import { mapState } from "vuex";
 
 export default {
   props: {
-    focus: String,
     newEl: Object,
   },
-  // components: {
-  //   Draggable,
-  // },
   data() {
     return {
       text: "",
@@ -112,17 +108,24 @@ export default {
     };
   },
   watch: {
-    focus(val) {
-      const el = this.$refs[val];
-      if (el) {
-        this.getRefs[val][0].focus();
-      }
-    },
     newEl(val) {
       this.$store.dispatch("savePopUpDataUnit", val);
     },
   },
   methods: {
+    resetPopUp() {
+      const items = []
+      for (const key in this.getRefs) {
+        const element = this.getRefs[key][0];
+        items.push(element)
+      }
+      items.forEach((el, i) => {
+        el.style.transform = this.elOrders[i].position
+      })
+
+      const message = "Popup reset to default sucessfully!";
+      this.$store.dispatch("triggerToast", {active:true,message, color: "4BB543"});
+    },
     onDragEnd(evt) {
       const el = evt.path[0]
       const position = el.style.transform;

@@ -8,8 +8,7 @@ process.env.NODE_ENV === "development"
   ? (axios.defaults.baseURL = "http://localhost:3001/")
   : (axios.defaults.baseURL = "https://simple-popup.onrender.com/");
 
-export default new Vuex.Store({
-  state: {
+  const defaultPopUp = {
     elOrders: [
       {
         type: "icon",
@@ -37,6 +36,13 @@ export default new Vuex.Store({
         value: "signup now",
       },
     ],
+    bgColor: "#e1795f",
+    footNote: "No credit card required. No Surprises",
+  }
+
+export default new Vuex.Store({
+  state: {
+    elOrders: defaultPopUp.elOrders,
     elAssets: [
       {
         type: "icon",
@@ -64,8 +70,8 @@ export default new Vuex.Store({
         value: "signup now",
       },
     ],
-    bgColor: "#e1795f",
-    footNote: "No credit card required. No Surprises",
+    bgColor: defaultPopUp.bgColor,
+    footNote: defaultPopUp.footNote,
     toast: {
       active: false,
       message: "",
@@ -73,6 +79,11 @@ export default new Vuex.Store({
   },
   getters: {},
   mutations: {
+    setPopupToDefault (state) {
+      state.elOrders = defaultPopUp.elOrders
+      state.bgColor = defaultPopUp.bgColor
+      state.footNote = defaultPopUp.footNote
+    },
     updateToast(state, toast) {
       const {active=false, message="", color=""} = toast
       state.toast = {...state.toast, ...{active, message, color}}
@@ -102,6 +113,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    resetPopUp({commit}) {
+      commit("setPopupToDefault")
+    },
     async getPopupSettings({commit}) {
       return axios
         .get("/popup-settings")
