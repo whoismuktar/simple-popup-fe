@@ -131,6 +131,24 @@ export default {
       const el =  evt.path[0]
       // console.log({el});
 
+      let value;
+        switch (el.id) {
+          case "icon":
+            value = "star-fill";
+            break;
+          case "text":
+            value = "Enter Text Here";
+            break;
+          case "input":
+            value = "";
+            break;
+          case "cta":
+            value = "Enter CTA Text";
+            break;
+          default:
+            break;
+        }
+
       this.newEl = {
         type: el.id,
         position: {
@@ -138,6 +156,7 @@ export default {
           pageY: 415,
         },
         bound: "",
+        value
       }
 
       this.resetEl(el)
