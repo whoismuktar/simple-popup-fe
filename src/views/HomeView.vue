@@ -161,10 +161,10 @@ export default {
       this.$store.dispatch("savePopupSettings");
     },
     getLink() {
-      let url = "https://simple-popup.onrender.com/cdn";
+      let url = "https://simple-popup.herokuapp.com/cdn";
       
       process.env.NODE_ENV === "development"? (url = "http://localhost:3001/cdn")
-      : (url = "https://simple-popup.onrender.com/cdn");
+      : (url = "https://simple-popup.herokuapp.com/cdn");
 
       //eslint-disable-next-line
       const code = `<script async type="text/javascript" src="${url}` + "<\/script>"
