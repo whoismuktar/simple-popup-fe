@@ -1,4 +1,4 @@
-// module.exports = {
+module.exports = {
 //   output: {
 //     path: __dirname + '/src',
 //     entry: {
@@ -10,4 +10,9 @@
 //       filename: "[name].bundle.js"
 //     }
 //   },
-// };
+resolve: {
+  alias: {
+      vue: 'vue/dist/vue.js'
+  }
+}
+};
