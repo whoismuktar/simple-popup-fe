@@ -9,17 +9,11 @@ import ActivePopup from "./ActivePopup";
 
 export default {
   components: { ActivePopup },
-  // mounted() {
-  //   const body = document.querySelector("body")
-  //   const nodEl = this.$refs.renderer
-  //   console.log(nodEl);
-  //   this.$nextTick(()=> {
-  //     body.appendChild(nodEl)
-  //   })
-  //   console.log(body, this.$el);
-  //   // console.log(body.nodeType === Node.DOCUMENT_TYPE_NODE);
-  //   // console.log({body}, this.$el.nodeType === Node.DOCUMENT_TYPE_NODE);
-  // }
+  mounted() {
+    const body = document.querySelector("body")
+    const nodeEl = document.createElement("div")
+    body.appendChild(nodeEl)
+  }
 };
 </script>
 
