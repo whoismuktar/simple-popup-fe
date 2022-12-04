@@ -1,5 +1,4 @@
 .popup {
-  // width: 300px;
 
   &-wrapper {
     border-radius: 50%;
@@ -155,19 +154,7 @@
   &-item {
     // margin-bottom: 10px;
     position: relative;
-    cursor: drag;
-
-    // &::before {
-    //   content:  "\F3FD"; 
-    //   width: 40px;
-    //   height: 10px;
-    //   position: absolute;
-    //   right: 0;
-    //   top: 0;
-    //   font-family: bootstrap-icons !important;
-    //   vertical-align: -0.125em;
-    //   -webkit-font-smoothing: antialiased;
-    // }
+    cursor: grab;
 
     &.popup-icons {
       margin-bottom: 10px;

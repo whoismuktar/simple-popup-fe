@@ -95,7 +95,7 @@ html {
   &-panel {
     // overflow: hidden;
     position: relative;
-    z-index: 999999999999999999999999999999999999999999999999;
+    z-index: 9999999;
     width: 7vw;
     max-height: 100vh;
     border-right: 1px solid #eae1e1;
@@ -189,6 +189,10 @@ html {
     @extend .allChildrenCenter;
     flex: 1;
     position: relative;
+
+    .popup-inner__wrapper {
+      position: relative;
+    }
   }
 }
 
