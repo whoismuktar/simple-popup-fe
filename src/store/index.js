@@ -102,9 +102,9 @@ export default new Vuex.Store({
           const { data, bgColor, footNote } = settings;
 
           if (Object.keys(settings).length) {
-            // commit("updatePopUpData", data);
-            // commit("updateBgColor", bgColor);
-            // commit("updatefootNote", footNote);
+            commit("updatePopUpData", data);
+            commit("updateBgColor", bgColor);
+            commit("updatefootNote", footNote);
           }
         })
         .catch((err) => {
@@ -124,6 +124,7 @@ export default new Vuex.Store({
           commit("updatePopUpData", response.data.settings.data);
           commit("updateBgColor", response.data.settings.bgColor);
           commit("updatefootNote", response.data.settings.footNote);
+
           state.toast.active = true;
           state.toast.message = "Popup save successfuly!";
           state.toast.color = "#4BB543";

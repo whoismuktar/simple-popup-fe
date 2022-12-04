@@ -12,7 +12,7 @@
             v-for="(item, i) in elOrders"
             :key="i"
             class="drop-zone"
-            :v-draggable="editMode ? true : null"
+            v-draggable
             :ref="`item-${i}`"
             @click="selectEl(i)"
           >
@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="popup-item popup-footnote">
-            <input type="text" v-model="footNote" maxlength="40" :disabled="!editMode" />
+            <input type="text" v-model="$store.state.footNote" maxlength="40" :disabled="!editMode" />
           </div>
         </div>
       </div>
@@ -83,45 +83,11 @@ export default {
     },
     newEl(val) {
       this.$store.dispatch("savePopUpDataUnit", val);
-      // console.log(this.elOrders.lenght,this.elOrders);
     },
-    elOrders() {
-      // if (newVal.length > oldVal.length) {
-      // }
-      // const lastItem = val[val.length-1]
-      // const lastElItem = newVal.findIndex((item, i)=> i === lastItemIdx)
-
-      // const idx = state.elOrders.findIndex((el) => el.type == unit.type);
-      // state.elOrders[idx].value = unit.value;
-
-      // this.$nextTick(()=> {
-      //   const lastElItem = Object.values(this.$refs).pop();
-      //   console.log(this.$refs, lastElItem, {lastItem});
-
-      //   var rect = lastElItem[0].getBoundingClientRect();
-      //   lastElItem[0].style.left = rect.x + lastItem.position.pageX + 'px';
-      //   lastElItem[0].style.top  = rect.x + lastItem.position.pageX + 'px';
-      //   // lastElItem[0].style.transform = `translate(${lastItem.position.pageX}px, ${lastItem.position.pageY}px)`
-      //   // console.log(lastElItem[0].getBoundingClientRect());
-      // })
-
-
-    },
-    // text(val) {
-    //   const item = this.elOrders.find((el) => el.type == "text");
-    //   const unit = { ...item, ...{ value: val } };
-    //   this.$store.dispatch("savePopUpDataUnit", unit);
-    // },
-    // email(val) {
-    //   const item = this.elOrders.find((el) => el.type == "input");
-    //   const unit = { ...item, ...{ value: val } };
-    //   this.$store.dispatch("savePopUpDataUnit", unit);
-    // },
   },
   methods: {
     removeEl(idx) {
       this.$store.dispatch("removePopUpUnit", idx);
-      
     },
     selectEl(i) {
       if (!this.editMode) return
