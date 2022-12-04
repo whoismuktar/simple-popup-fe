@@ -39,13 +39,6 @@
               @start="onDragStart"
               @stop="onDragEnd"
             >
-              <!-- draggable
-              @dragstart="startDrag($event, i)"
-              @drop="onDrop($event, i)"
-              @dragover.prevent
-              @dragenter.prevent
-              @click="selectNode(item.type)"
-            > -->
               <span class="drag-icon">
                 <i class="bi bi-grip-vertical"></i>
               </span>
@@ -115,21 +108,8 @@ export default {
     },
   },
   methods: {
-    onDragStart() {
-      // console.log({evt});
-    },
     onDragEnd(evt) {
-      // if (evt.detail.event.screenX < 630) {
-      //   const el =  evt.path[0]
-      //   this.resetEl(el)
-      //   evt.preventDefault()
-      //   return
-      // }
-
-      console.log(evt.detail.data.lastX, evt.detail.data.lastY);
-      console.log({evt});
       const el =  evt.path[0]
-      // console.log({el});
 
       let value;
         switch (el.id) {
@@ -170,32 +150,6 @@ export default {
       evt.dataTransfer.setData("itemID", i)
 
       this.itemDragged = this.elOrders[i];
-    },
-    onDrop() {
-      // implement array prototype construct
-      // Array.prototype.insert = function (index, ...items) {
-      //   this.splice(index, 0, ...items);
-      // };
-
-      // const itemDraggedIdx = this.elOrders.indexOf(this.itemDragged);
-      // const isUpDrag = itemDraggedIdx > i;
-      // const isDownDrag = i > itemDraggedIdx;
-
-      // if (i === itemDraggedIdx) {
-      //   return;
-      // }
-
-      // let orders = this.elOrders;
-
-      // if (isUpDrag) {
-      //   orders.insert(i, this.itemDragged);
-      //   orders.splice(itemDraggedIdx + 1, 1);
-      // } else if (isDownDrag) {
-      //   orders.insert(i+1, this.itemDragged);
-      //   orders.splice(itemDraggedIdx, 1);
-      // }
-
-      // this.$store.dispatch("savePopUpData", orders);
     },
     savePopUp() {
       this.$store.dispatch("savePopupSettings");
