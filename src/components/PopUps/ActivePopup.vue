@@ -11,20 +11,26 @@
           <div
             v-for="(item, i) in elOrders"
             :key="i"
-            class="drop-zone"
-            v-draggable
+            v-draggable="{
+              disabled: !editMode,
+            }"
+            :id="`${item.type}-${i}`"
+            :disabled="!editMode"
+            @stop="onDragEnd"
             :ref="`item-${i}`"
             @click="selectEl(i)"
+            class="drop-zone"
+            :style="{'transforme:': 'item.position'}"
           >
             <i
               v-if="editMode"
               class="bi bi-x-circle-fill close"
               @click="removeEl(i)"
             ></i>
+            <!-- {{item.position}} -->
 
             <div
               v-if="item.type === 'icon'"
-              ref="icon"
               class="popup-item popup-stars popup-icons"
             >
               <div class="popup-item popup-stars">
@@ -40,14 +46,13 @@
             >
               <input
                 v-model="email"
-                ref="input"
                 type="email"
                 placeholder="E-mail"
               />
             </div>
 
             <div v-else-if="item.type === 'cta'" class="popup-item popup-cta">
-              <button ref="cta">
+              <button>
                 <input
                   type="text"
                   v-model="elOrders[i].value"
@@ -72,6 +77,7 @@
               ></textarea>
             </div>
           </div>
+
           <div class="popup-item popup-footnote">
             <input
               type="text"
@@ -88,12 +94,16 @@
 
 <script>
 import { mapState } from "vuex";
+// import { Draggable } from "@braks/revue-draggable";
 
 export default {
   props: {
     focus: String,
     newEl: Object,
   },
+  // components: {
+  //   Draggable,
+  // },
   data() {
     return {
       text: "",
@@ -103,7 +113,6 @@ export default {
   },
   watch: {
     focus(val) {
-      console.log(val, this.getRefs[val]);
       const el = this.$refs[val];
       if (el) {
         this.getRefs[val][0].focus();
@@ -114,6 +123,13 @@ export default {
     },
   },
   methods: {
+    onDragEnd(evt) {
+      const el = evt.path[0]
+      const position = el.style.transform;
+      const idx = el.id.split("-")[1];
+
+      this.$store.dispatch("saveUnitPosition", { idx, position });
+    },
     removeEl(idx) {
       this.$store.dispatch("removePopUpUnit", idx);
     },
@@ -177,6 +193,19 @@ export default {
       return this.$refs;
     },
   },
+  mounted() {
+    const items = []
+    for (const key in this.getRefs) {
+      const element = this.getRefs[key][0];
+      items.push(element)
+    }
+    
+    setTimeout(() => {
+      items.forEach((el, i) => {
+        el.style.transform = this.elOrders[i].position
+      })
+    }, 500);
+  }
 };
 </script>
 

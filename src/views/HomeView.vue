@@ -35,7 +35,7 @@
               :key="i"
               :id="item.type"
               class="editor-panel-item drop-zone"
-              v-draggable=""
+              v-draggable
               @start="onDragStart"
               @stop="onDragEnd"
             >

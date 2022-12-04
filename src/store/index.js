@@ -81,24 +81,25 @@ export default new Vuex.Store({
     },
     deletePopUpUnit(state, idx) {
       state.elOrders.splice(idx, 1)
-      console.log(state.elOrders.length);
     },
     updateBgColor(state, color) {
       state.bgColor = color;
     },
-    updatefootNote(state, color) {
-      state.bgColor = color;
+    updatefootNote(state, footNote) {
+      state.footNote = footNote;
+    },
+    updateUnitPosition(state, data) {
+      const {position, idx} = data
+      state.elOrders[idx].position = position
     },
   },
   actions: {
-      //eslint-disable-next-line
     async getPopupSettings({commit}) {
       return axios
         .get("/popup-settings")
         .then((response) => {
           const settings = response.data.settings || {};
 
-          //eslint-disable-next-line
           const { data, bgColor, footNote } = settings;
 
           if (Object.keys(settings).length) {
@@ -135,7 +136,7 @@ export default new Vuex.Store({
           }, 3000);
         })
         .catch((err) => {
-          console.log(err, err.response);
+          console.log(err);
           return err.response;
         });
     },
@@ -153,6 +154,9 @@ export default new Vuex.Store({
     },
     saveFootNote({ commit }, footNote) {
       commit("updatefootNote", footNote);
+    },
+    saveUnitPosition({ commit }, data) {
+      commit("updateUnitPosition", data);
     },
   },
   modules: {},
